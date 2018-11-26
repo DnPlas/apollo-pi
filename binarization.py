@@ -12,10 +12,7 @@ def highlight_yellow_lines(frame, min_values, max_values):
     # Check whether the threshold was reached or not
     mask = cv2.inRange(hsv, min_values, max_values)
     
-    # Only yellow coloured objects are highlighted and stored
-#    highlighted_yellows = cv2.bitwise_and(frame, frame, mask=mask)
-
-    return mask #highlighted_yellows
+    return mask
 
 # Highlight WHITE lines
 def highlight_white_lines(frame):
@@ -26,8 +23,7 @@ def highlight_white_lines(frame):
     equalize_gray = cv2.equalizeHist(gray)
 
     # Filter image with threshold
-    _, white_th = cv2.threshold(equalize_gray,250, 255, type=cv2.THRESH_BINARY
-)
+    _, white_th = cv2.threshold(equalize_gray,245, 255, type=cv2.THRESH_BINARY)
 
     return white_th
 

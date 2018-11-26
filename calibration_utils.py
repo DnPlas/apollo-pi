@@ -44,14 +44,16 @@ def calibrate_camera(n, m, testdir, fmt, dev=False):
 def undistort(frame, mtx, dist, dev=False):
     h,  w = frame.shape[:2]
     newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
-    frame_undistorted = cv2.undistort(frame, mtx, dist, None, newcameramtx)
-    if dev:
-        cv2.imshow('Distorted', frame)
-        cv2.imshow('Undistorted', frame_undistorted)
-        cv2.waitKey(9000)
-        cv2.destroyAllWindows()
+    mapx,mapy = cv2.initUndistortRectifyMap(mtx,dist,None,newcameramtx,(w,h),5)
+    frame_undistorted = cv2.remap(frame,mapx,mapy,cv2.INTER_LINEAR)
+#    frame_undistorted = cv2.undistort(frame, mtx, dist, None, newcameramtx)
+#    if dev:
+#        cv2.imshow('Distorted', frame)
+#        cv2.imshow('Undistorted', frame_undistorted)
+#        cv2.waitKey(9000)
+#        cv2.destroyAllWindows()
     x,y,w,h = roi
-    frame_undistorted = frame_undistorted[y:y+h, x:x+w]
+    frame_undistorted = frame_undistorted[y:y+h, x:x+w+40]
     return frame_undistorted
 
 #if __name__ == '__main__':
